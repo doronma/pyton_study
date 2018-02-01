@@ -1,0 +1,16 @@
+import datetime
+print(datetime.datetime.today())
+print(datetime.datetime.now())
+print(datetime.datetime.utcnow())
+now = datetime.datetime.now()
+today = now.date()
+moment = now.time()
+print (today)
+print (moment)
+
+myDate = datetime.date(year=1984,month=12,day=22)
+myTime = datetime.time(hour=16,minute=30,second=45)
+print(myDate)
+print(myTime)
+myDateTime = datetime.datetime.combine(myDate,myTime)
+print(myDateTime)
