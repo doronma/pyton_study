@@ -9,3 +9,4 @@ print("The time in {} is {}".format(country,local_time))
 print("UTC is {}".format(datetime.datetime.utcnow()))
 for tz in pytz.all_timezones:
     print(tz)
+
