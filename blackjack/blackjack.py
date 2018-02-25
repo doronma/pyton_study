@@ -22,6 +22,7 @@ def load_images(card_images):
 
 def deal_cards(frame):
     next_card = deck.pop(0)
+    deck.append(next_card)
     tkinter.Label(frame,image=next_card[1],relief='raised').pack(side='left')
     return next_card
 
@@ -43,21 +44,6 @@ def deal_dealer():
     else:
          result_text.set("Draw")
 
-# def deal_player():
-#     global player_score
-#     global player_ace
-#     card_value = deal_cards(player_card_frame)[0]
-#     if card_value == 1 and player_ace:
-#         player_ace = True
-#         card_value=11
-#     player_score+= card_value 
-#     if player_score >21 and player_ace:
-#         player_score -= 10
-#         player_ace = False
-#     player_score_label.set(player_score)  
-#     if player_score > 21:
-#         result_text.set("Dealer winds!")
-#     # print(locals())
 
 def deal_player():
    player_hand.append(deal_cards(player_card_frame))
@@ -80,7 +66,38 @@ def score_hands(hand):
             ace = False
     return score
 
+def reset():
+    global player_card_frame
+    global dealer_card_frame
+    global dealer_hand
+    global player_hand
+    
+    dealer_card_frame.destroy()
+    dealer_card_frame = tkinter.Frame(card_frame,background="green")
+    dealer_card_frame.grid(row=0,column=1,sticky="ew",rowspan=2)
 
+    player_card_frame.destroy()
+    player_card_frame = tkinter.Frame(card_frame,background="green")
+    player_card_frame.grid(row=2,column=1,sticky='ew',rowspan=2)
+
+    result_text.set("")
+    dealer_hand=[]
+    player_hand=[]
+
+    deal_player()
+    dealer_hand.append(deal_cards(dealer_card_frame))
+    dealer_score_label.set(score_hands(dealer_hand))
+    deal_player()
+   
+
+def shuffle():
+    random.shuffle(deck)
+
+def startGame():
+    reset()
+    mainWindow.mainloop()
+
+  
 mainWindow = tkinter.Tk()     
 
 mainWindow.title("Black Jack")
@@ -119,18 +136,25 @@ dealer_button.grid(row=0,column=0)
 player_button = tkinter.Button(button_frame,text="Player",command=deal_player)
 player_button.grid(row=0,column=1)
 
+reset_button = tkinter.Button(button_frame,text="reset",command=reset)
+reset_button.grid(row=0,column=2)
+
+shuffle_button = tkinter.Button(button_frame,text="shuffle",command=shuffle)
+shuffle_button.grid(row=0,column=3)
+
 cards = []
 load_images(cards)
 
-
 deck = list(cards)
-random.shuffle(deck)
+shuffle()
 
 dealer_hand=[]
 player_hand=[]
 
-deal_player()
-dealer_hand.append(deal_cards(dealer_card_frame))
-deal_player()
+if __name__ == "__main__" :
+    startGame()
 
-mainWindow.mainloop()
+
+
+
+
